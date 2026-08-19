@@ -1,6 +1,6 @@
  <img width="799" height="768" alt="Screenshot 2026-08-19 113556" src="https://github.com/user-attachments/assets/9ab13d17-2e0c-403a-b3ee-def7c8d9b2d0" />
 
-
+بضيف الكود عندي في الأبليكيشن، بجيب الـ release apk، أرفعه على الـ console Workspace ONE UEM. بمجرد ما أنا رفعته عليها، ببدا أربط الـ account بتاعها بنفس الـ account على التطبيق بتاع الـ Intelligent Hub. بمجرد ما أنا ربطت الاتنين ببعض، بيبدأ يظهر التطبيق عندي. لما أجي أنزل التطبيق، الـ SDK بتاعتي بقت بتتعامل مع الـ website عن طريق الـ package name أو الـ bundle ID، بتبدأ تقرأ منه كل السياسات بتاعته اللي هو طبقها على الـ package name دي أو الـ bundle ID، ويبدأ يعرضها لي في الأبليكيشن. ده كده الحوار كله. بالنسبة بقى للـ generate token، ده فقط عشان يعمل لي pull لكل الكود الخاص بالـ SDK. 
 
 org.gradle.jvmargs=-Xmx4G
 org.gradle.java.home=C:\\Program Files\\Android\\Android Studio\\jbr
