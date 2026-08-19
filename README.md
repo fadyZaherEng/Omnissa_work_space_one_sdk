@@ -1,16 +1,79 @@
-# mova
+org.gradle.jvmargs=-Xmx4G
+org.gradle.java.home=C:\\Program Files\\Android\\Android Studio\\jbr
+android.useAndroidX=true
+android.enableJetifier=true
+kotlin.incremental=false
+gpr.user=xxxxxxxxxxxxx
+gpr.key=xxxxxxxxxxxxxxxxxxx
+github.user=xxxxxxxxxx
+github.token=xxxxxxxxxxxxxxxxxxx
+# get it from https://github.com/settings/tokens
+#https://play.google.com/store/apps/details?id=com.airwatch.androidagent  intelligent hub
+# sdk website
 
-Mova APP.
+#يبدو أن خادم تجارب Omnissa العام (cn.awmdm.com) مغلق أو يحتاج إلى نطاق فرعي محدد (Subdomain) خاص بمؤسستك للدخول عليه، ولهذا يظهر لك خطأ في المتصفح بأن الصفحة غير موجودة (DNS_PROBE_FINISHED_NXDOMAIN).
+#
+#للوصول إلى لوحة التحكم الصحيحة، يرجى مراجعة الآتي:
+#
+#الرابط الخاص بمؤسستك: عادة ما تقوم الجهة التي تعمل معها (الشركة أو المؤسسة) بتوفير رابط مخصص لك للدخول إلى لوحة التحكم الخاصة بهم. يكون الرابط غالباً على هذا الشكل: https://dsXXX.awmdm.com أو https://cnXXX.awmdm.com (حيث XXX هي أرقام سيرفر البيئة الخاصة بكم، مثل https://cn135.awmdm.com).
+#
+#البريد الإلكتروني التجريبي: إذا قمت بالتسجيل في بيئة تجريبية (Sandbox/Trial)، تحقق من البريد الإلكتروني الذي استقبلته بعد التسجيل؛ حيث يحتوي دائماً على رابط لوحة التحكم المخصص لبيئتك (Console URL) بالإضافة إلى اسم المستخدم وكلمة المرور المؤقتة.
+#
+#هل يتوفر لديك بريد إلكتروني يحتوي على تفاصيل البيئة التجريبية الخاصة بك؟
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+#Omnisa SDK Steps :
+#الخطوة الأولى: عمل Build لنسخة Release (ملف Signed APK / IPA)
+#ما معناها؟
+#أثناء التطوير، نستخدم نسخة Debug لتجربة الكود على الهاتف بسرعة.
+#لكن لنظام إدارة المؤسسات (UEM Console)، لا يقبل التطبيقات إلا إذا كانت مبنية كنسخة نهائية رسمية (Release) وموقعة رقمياً بمفتاح أمان (Keystore / Signing Certificate).
+#
+#:two: الخطوة الثانية: رفع التطبيق إلى Workspace ONE UEM Console
+#ما هي لوحة التحكم هذه (UEM Console)؟
+#هي موقع سحابي خاص بالشركة (يستخدمه مسؤولو الـ IT أو الأمن السيبراني في المؤسسة).
+#كيف يتم الرفع عملياً داخل الموقع؟
+#يدخل مسؤول الـ IT على لوحة التحكم.
+#يذهب إلى القائمة الجانبية: Apps & Books (التطبيقات والكتب) ➔ Applications ➔ Native.
+#يضغط على تبويب Internal (تطبيقات داخلية) ثم يضغط زر Add Application.
+#يرفع ملف الـ APK أو IPA الذي أخرجته له من الخطوة الأولى.
+#سيتعرف النظام تلقائياً على اسم الحزمة (com.mofa.ksa) وإصدار التطبيق.
+#:three: الخطوة الثالثة: تعيين الـ SDK Profile (تحديد سياسات الأمان)
+#ما هو الـ SDK Profile؟
+#هو الملف الإداري الذي يحدد "ما هي القوانين الأمنية التي يجب أن يفرضها تطبيقك على هاتف الموظف".
+#ماذا يحدد مسؤول الـ IT داخل هذا الـ Profile؟
+#داخل صفحة التطبيق في الـ Console يختار More ➔ SDK ويختار الـ Profile، والذي يحتوي على خيارات مثل:
+#
+#Authentication: فرض Passcode مكون من 6 أرقام لفتح التطبيق، أو السماح بالبصمة (Biometrics).
+#Data Loss Prevention (DLP):
+#إيقاف أخذ لقطات شاشة (Disable Screen Capture).
+#منع نسخ النصوص من التطبيق ولصقها في واتساب أو الملاحظات (Prevent Copy/Paste).
+#Compromised Device Detection: إغلاق التطبيق فوراً إذا كان الهاتف مكسور الحماية (Root / Jailbreak).
+#Custom App Config: كتابة إعدادات أو روابط API في هيئة JSON ليرسلها الكونسول لتطبيقك تلقائياً.
+#:four: الخطوة الرابعة: تثبيت Intelligent Hub على هاتف الاختبار وتشغيل التطبيق
+#كيف تصبح الدورة مكتملة على هاتف المستخدم؟
+#تثبيت الـ Hub: يقوم الموظف أو مسؤول الاختبار بتنزيل تطبيق Workspace ONE Intelligent Hub (المتوفر مجاناً على متجر Google Play / App Store).
+#تسجيل الدخول (Enrollment): يفتح تطبيق الـ Hub ويكتب إيميل الشركة وكلمة المرور الخاصة به. (هنا يتعرف السيرفر على أن هذا الهاتف ملك لموظف في الشركة).
+#تثبيت تطبيق Mova[9:01 AM]@Abanoub Anwar
+#[9:05 AM]أنا دلوقتي ضفت كل الكود الخاص بالمكتبة سواء أندرويد أو iOS وربطهم، حتى ضفت الـ GitHub بتاعي، فمحتاج الـ token والـ username بتاع الـ GitHub بتاع الأكونت اللي هيترفع بيه. أنا ضفت حاليًا بتوعي، وضفت كل الكود الخاص بالمكتبة، فكده ناقص حاجة. دلوقتي في المنصة دي محتاجين بقى إن هو يبدأ يرفع التطبيق عليها، هيخش على الـ Workspace ONE UEM Console، وبعد كده هيبدأ يرفع التطبيق عليها. وبعد كده هيروح على الـ Google Play، هينزل حاجة اسمها Hub دي، الـ Hub دي بيسجل بالأكونت بتاعه فالمفروض إن هو هيظهر له التطبيق، اسمها Intelligent Hub، هيظهر بقى التطبيق بتاع الموفا، فيبدأ بقى يعمل له install منها، طبعًا ده هيدخل بنفس حساب الشركة. بعد بقى ما يعمل install منها، فيها برضه في الـ Workspace ONE UEM Console دي هيبدأ يحط كل الحاجات الـ configurations بتاعته اللي هو عايز يحطها، كل حاجات السياسة اللي هو عايز يحطها، سواء يمنع الـ screenshot، يمنع إن التطبيق ده لو الجهاز متهكر، كل الحاجات دي هيمنعها من الـ Workspace دي، وبعد كده لما بينزلوا بينزلوا من الـ Intelligent Hub ده، وبعد كده المفروض يشتغل.
+#[9:06 AM]الخطوات بعتها فوق
+#بس ك تطبيق المفروض ان ضفت كل الكود الخاص بيها
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#جزء المطورين وتنزيل الـ SDK (مجاني 100% :white_check_mark:):
+#
+#موقع المطورين (developer.omnissa.com
+#) ومستودعات الـ SDK والـ GitHub Packages:
+#مجانية تماماً:يمكنك عمل حساب مجاني، إنشاء الـ Token، تنزيل الـ SDK، ودمج الكود في تطبيقك بدون دفع أي شيء.
+#
+#
+#
+#:two: جزء لوحة التحكم وإدارة الأجهزة (UEM Console) (بفلوس مدفوع :credit_card:):
+#
+#لوحة التحكم السحابية (Cloud Console / Server) التي تستخدمها الشركات:
+#خدمة مدفوعة (Enterprise Subscription):تعتمد على اشتراك سنوي أو شهري لكل جهاز/مستخدم (Per Device / Per User Licensing).
+#هذه اللوحة تشتريهاالشركات والمؤسسات(مثل البنوك، الهيئات الحكومية، والشركات الكبيرة) لإدارة هواتف موظفيها وتطبيقاتهم.
+
+
+#بص هو باختصار الـ SDK ده بيعمل إيه؟ ده تقريبًا بيخلي الأبليكيشن سيكيور أكتر وكمان بيخلي الشركة بتتحكم في كل حاجة في التطبيق عمومًا، بحيث برضه بيبقى في كونفيجريشنز معينة بيبدأ يحطها للتطبيق، الكونفيجريشنز دي زي مثلًا إنه ما ياخدش سكرين شوت، كمان لو التليفون معين عايز يعمل له هاكر بتاع مش عارف إيه، عايز يمنع التليفون معين إنه يدخل عليه، الكلام ده كله. طيب الكلام ده بيتطبق إزاي؟ عن طريق اللي هي الـ workspace اللي اسمها WS1 دي، بيبدأ يدخل يعمل أكونت عليها، يبدأ بعد كده يرفع الـ ريليز APK عليها، وبعد كده بينزل اللي هي الـ Intelligent Hub ده من جوجل بلاي والآبل ستور، ويبدأ يربط الأكونت بتاعها بالأكونت بتاع اللي هو الـ WS1 SDK، وبعد ما بيربطهم المفروض بقى بيبدأ ينزل الأبليكيشن بيظهر له على طول يعني على الـ Intelligent Hub ده. أول ما بيظهر له الأبليكيشن بينزله وبعد كده بأي كونفيجريشنز بيعملها عن طريق الـ SDK ده بيبدأ يتطبق في التطبيق. لحد هنا هما دورهم، بعد كده دور التطبيق بقى إن أي أكشنز أو أي كونفيجريشنز بتتعمل للتطبيق بيبدأ التطبيق تسمع فيه أول ما اليوزر يفتح الأبليكيشن، وبناءً على الكونفيجريشنز اللي عملها دي بيبدأ التطبيق ياخد الأكشنز بتاعه. ده الحوار كله يعني.
+#Message mofa-app
