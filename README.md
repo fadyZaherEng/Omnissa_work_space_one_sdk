@@ -1,3 +1,7 @@
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e2b6b053-545c-432d-ae35-434a8bc90113" />
+
+
+
 org.gradle.jvmargs=-Xmx4G
 org.gradle.java.home=C:\\Program Files\\Android\\Android Studio\\jbr
 android.useAndroidX=true
