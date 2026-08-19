@@ -1,0 +1,80 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mova/src/config/theme/color_schemes.dart';
+import 'package:mova/src/core/resources/image_paths.dart';
+
+class RowItemWidget extends StatelessWidget {
+  final String path;
+  final String title;
+  final void Function() onTap;
+  final bool isLast;
+
+  const RowItemWidget({
+    super.key,
+    required this.path,
+    required this.onTap,
+    required this.title,
+    this.isLast = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SvgPicture.asset(
+                  path,
+                  width: 24,
+                  height: 24,
+                  fit: BoxFit.scaleDown,
+                  color: isLast ? ColorSchemes.redError : ColorSchemes.primary,
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: isLast
+                              ? ColorSchemes.redError
+                              : CupertinoColors.black,
+                          fontSize: 14,
+                        ),
+                  ),
+                ),
+                Transform(
+                  alignment: Alignment.center,
+                  transform: !isRtl
+                      ? Matrix4.rotationY(3.14159)
+                      : Matrix4.rotationY(0),
+                  child: SvgPicture.asset(
+                    ImagePaths.arrowLeft,
+                    width: 24,
+                    height: 24,
+                    fit: BoxFit.scaleDown,
+                    color: ColorSchemes.gray,
+                  ),
+                ),
+              ],
+            ),
+            if (!isLast)
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 20),
+                height: 1.4,
+                color: ColorSchemes.moreBackground,
+              ),
+            if (isLast) const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
+  }
+}

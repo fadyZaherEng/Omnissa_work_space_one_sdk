@@ -1,0 +1,296 @@
+import 'package:flutter/material.dart';
+import 'package:mova/generated/l10n.dart';
+import 'package:mova/src/config/theme/color_schemes.dart';
+import 'package:mova/src/core/utils/constants.dart';
+import 'package:mova/src/di/data_layer_injector.dart';
+import 'package:mova/src/domain/entities/home/land_mark.dart';
+import 'package:mova/src/domain/usecase/get_language_use_case.dart';
+import 'package:mova/src/presentation/widgets/progress_horizantal_indicator_widget.dart';
+import 'package:mova/src/presentation/widgets/status_widget.dart';
+
+class LandmarkCardWidget extends StatelessWidget {
+  final Landmark landmark;
+  final void Function(Landmark) onTap;
+
+  const LandmarkCardWidget({
+    super.key,
+    required this.landmark,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => onTap(landmark),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: ColorSchemes.border, width: 0.75),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 16),
+            _buildHeader(context),
+            const SizedBox(height: 12),
+            Container(height: 0.75, color: ColorSchemes.border),
+            const SizedBox(height: 12),
+            _buildUserAndDepartment(context),
+            const SizedBox(height: 16),
+            _buildDatesRow(context),
+            const SizedBox(height: 16),
+            _buildAddressRow(context),
+            const SizedBox(height: 16),
+            _buildDatesLineBasicsRow(context),
+            const SizedBox(height: 16),
+            _buildNumberOfDaysRow(context),
+            const SizedBox(height: 16),
+            _buildProgressSection(context),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                landmark.title,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: ColorSchemes.black,
+                      fontSize: 14,
+                      fontWeight: Constants.fontWeightSemiBold,
+                    ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                GetLanguageUseCase(injector())() == "ar"
+                    ? "#${landmark.id}"
+                    : "${landmark.id}#",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: ColorSchemes.primary),
+              ),
+            ],
+          ),
+          const Spacer(),
+          StatusWidget(
+            statusColor: landmark.statusColor,
+            statusMessage: landmark.status,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUserAndDepartment(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          _buildAvatar(context, landmark.managerName),
+          const SizedBox(width: 8),
+          Text(
+            landmark.managerName,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: ColorSchemes.black,
+                  fontWeight: Constants.fontWeightSemiBold,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDatesRow(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          Expanded(
+            child: _buildLabeledValue(
+              context,
+              label: S.of(context).endDateExpected,
+              value: landmark.endDateExpected,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: _buildLabeledValue(
+              context,
+              label: S.of(context).endDateReal,
+              value: landmark.endDateReal,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDatesLineBasicsRow(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          Expanded(
+            child: _buildLabeledValue(
+              context,
+              label: S.of(context).startDateBasicsLine,
+              value: landmark.startDateBasicsLine,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: _buildLabeledValue(
+              context,
+              label: S.of(context).endDateBasicsLine,
+              value: landmark.endDateBasicsLine,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAddressRow(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          Expanded(
+            child: _buildLabeledValue(
+              context,
+              label: S.of(context).address,
+              value: landmark.address,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: _buildLabeledValue(
+              context,
+              label: S.of(context).implementationState,
+              value: landmark.implementationState,
+              color: landmark.statusColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNumberOfDaysRow(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          Expanded(
+            child: _buildLabeledValue(
+              context,
+              label: S.of(context).numberOfDays,
+              value: "${landmark.numberOfDays} ${S.of(context).day}",
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: _buildLabeledValue(
+              context,
+              label: S.of(context).weight,
+              value: "${landmark.weight} ${S.of(context).kgm}",
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProgressSection(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            S.of(context).progressPercentage,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: ColorSchemes.gray,
+                  fontSize: 13,
+                  fontWeight: Constants.fontWeightSemiBold,
+                ),
+          ),
+          const SizedBox(height: 8),
+          ProgressHorizontalIndicatorWidget(
+            status: landmark.progressImplementation,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLabeledValue(
+    BuildContext context, {
+    required String label,
+    required String value,
+    Color? color,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: ColorSchemes.gray,
+                fontSize: 13,
+                fontWeight: Constants.fontWeightSemiBold,
+              ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: color ?? ColorSchemes.black,
+                fontWeight: Constants.fontWeightSemiBold,
+              ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAvatar(BuildContext context, String fullName) {
+    final initials = fullName
+        .trim()
+        .split(' ')
+        .where((e) => e.isNotEmpty)
+        .map((e) => e.characters.first)
+        .take(2)
+        .join(' ');
+
+    return Container(
+      width: 32,
+      height: 32,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        color: ColorSchemes.primary,
+      ),
+      child: Center(
+        child: Text(
+          initials,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: ColorSchemes.white,
+                fontSize: 13,
+                fontWeight: Constants.fontWeightSemiBold,
+              ),
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "ios-workspaceone-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/euc-releases/iOS-WorkspaceONE-SDK",
+      "state" : {
+        "revision" : "5b4f40949334e477d30eb775bf95c76578ce13f6",
+        "version" : "24.11.0"
+      }
+    }
+  ],
+  "version" : 2
+}

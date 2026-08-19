@@ -1,0 +1,121 @@
+import 'package:flutter/material.dart';
+import 'package:mova/generated/l10n.dart';
+import 'package:mova/src/config/theme/color_schemes.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+
+class CircleChartWidget extends StatelessWidget {
+  const CircleChartWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<ChartData> chartData = [
+      ChartData('David', 25, Colors.blue),
+      ChartData('Steve', 38, Colors.green),
+      ChartData('Jack', 34, Colors.orange),
+      ChartData('Others', 52, Colors.purple),
+    ];
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsetsDirectional.symmetric(horizontal: 8),
+        child: SizedBox(
+          width: double.infinity,
+          height: 250,
+          child: SfCircularChart(
+            // title: ChartTitle(
+            //   text: S.of(context).risks,
+            //   alignment: ChartAlignment.far,
+            // ),
+            legend: Legend(
+              isVisible: true,
+              overflowMode: LegendItemOverflowMode.none,
+              title: LegendTitle(
+                text: "       ${S.of(context).risks}",
+                alignment: ChartAlignment.far,
+                textStyle: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(fontSize: 16, color: ColorSchemes.black),
+              ),
+              // itemPadding: 20,
+              position: LegendPosition.left,
+              shouldAlwaysShowScrollbar: true,
+              toggleSeriesVisibility: true,
+              legendItemBuilder: (txt, series, pointIndex, seriesIndex) {
+                final ChartData dataPoint = chartData[seriesIndex];
+                return Padding(
+                  padding:
+                      EdgeInsets.only(top: seriesIndex == 0 ? 8 : 4, bottom: 4),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 6),
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            color: dataPoint.color,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.35,
+                        child: Text(
+                          dataPoint.x,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          textAlign: TextAlign.start,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(color: ColorSchemes.black,fontSize: 13),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            series: <CircularSeries>[
+              PieSeries<ChartData, String>(
+                dataSource: chartData,
+                xValueMapper: (ChartData data, _) => data.x,
+                yValueMapper: (ChartData data, _) => data.y,
+                pointColorMapper: (ChartData data, _) => data.color,
+                dataLabelSettings: DataLabelSettings(
+                  isVisible: true,
+                  textStyle: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: ColorSchemes.white),
+                  labelPosition: ChartDataLabelPosition.inside,
+                  // useSeriesColor: true,
+                  // margin: const EdgeInsets.all(50),
+                  // showCumulativeValues: true,
+                  // showZeroValue: true,
+                ),
+                // explode: false,
+                // explodeAll: false,
+                // enableTooltip: true,
+                radius: '80%',
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ChartData {
+  ChartData(this.x, this.y, this.color);
+
+  final String x;
+  final int y;
+  final Color color;
+}

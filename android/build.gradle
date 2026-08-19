@@ -1,0 +1,43 @@
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+subprojects {
+    def setNamespace = { proj ->
+        if (proj.hasProperty('android')) {
+            if (proj.android.namespace == null) {
+                def manifestFile = file("${proj.projectDir}/src/main/AndroidManifest.xml")
+                if (manifestFile.exists()) {
+                    def match = (manifestFile.text =~ /package="([^"]+)"/)
+                    if (match) {
+                        proj.android.namespace = match[0][1]
+                    } else {
+                        proj.android.namespace = "com.plugin.${proj.name.replace('-', '_')}"
+                    }
+                } else {
+                    proj.android.namespace = "com.plugin.${proj.name.replace('-', '_')}"
+                }
+            }
+        }
+    }
+    if (project.state.executed) {
+        setNamespace(project)
+    } else {
+        project.afterEvaluate { setNamespace(project) }
+    }
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
